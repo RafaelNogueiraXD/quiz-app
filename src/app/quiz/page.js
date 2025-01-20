@@ -4,103 +4,72 @@ import React, { useState } from 'react';
 
 import { redirect } from 'next/navigation'
 import '../globals.css'
+import { Background } from '../_components/background';
+// import { Pop_up } from '../_components/pop_up';
+
 const QuizSlider = () => {
   const [userAnswer, setUserAnswer] = useState('');
   const [currentSlide, setCurrentSlide] = useState(0);
   var contador = 0;
   const quizData = [
     {
-      question: "Qual é a capital do Brasil?",
-      answer: "1",
+      question: "I AM NOT ALIVE, BUT I GROW; I DON'T HAVE LUNGS, BUT I NEED AIR;",
+      question2: "I DON'T HAVE A MOUTH, BUT WATER KILLS ME. WHAT AM I?",
+      answer: "Fire",
       image: "/inicio.jpg",
-      name: ""
+      name: "",
+      if_error: "Congratulations, you're dumber than a fifth grader"
     },
     {
-      question: "Quantos planetas existem no sistema solar?",
-      answer: "2",
+      question: "What is the name of the adult stage of an insect?",
+      question2: "",
+      answer: "Imago",
       image: "/meio.jpg",
-      name: ""
+      name: "",
+      if_error: "It looks like someone missed biology classes, try again. "
+
     },
     {
-      question: "Qual é o maior país do mundo?",
-      answer: "3",
+      question: "I have cities, but I don't have a house. I have mountains, but no trees. I have water, but no fish. What am I?",
+      question2: "",
+      answer: "Map",
       image: "/fim.jpg",
-      name: "invited"
+      name: "invited",
+      if_error: "Making mistakes like this doesn't even come close to solving the case. "
+
     }
   ];
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (userAnswer.toLowerCase() === quizData[currentSlide].answer) {
+    if (userAnswer.toLowerCase() === quizData[currentSlide].answer.toLowerCase()) {
       setCurrentSlide((prev) => (prev + 1) % quizData.length);
       if(quizData[currentSlide].name == "invited"){
-        alert("voce foi convidado");
+        alert("Congratulations, attend this address: Bairro Vera Cruz, Rua Carlos Ribeiro 357, on January 26th at 3:30 pm");
         redirect(`/`);
       }
     }else{
-      alert("errou!");
+      alert(quizData[currentSlide].if_error);
     }
     setUserAnswer('');
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#333333] flex items-center justify-center p-4">
-      {/* Layout para telas pequenas (versão 1) */}
-      <div className="w-4/5 md:hidden shadow-animate ">
-        <div className="bg-gray rounded-lg shadow-xl p-8">
-          <div className="relative aspect-video mb-8">
-            <img
-              src={quizData[currentSlide].image}
-              alt="Quiz"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-          
-          <div className="text-center">
-            <h2 className="text-2xl font-bold mb-6 text-white-800">
-              {quizData[currentSlide].question}
-            </h2>
-            
-            <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4 text-black-800">
-              <input
-                type="text"
-                value={userAnswer}
-                onChange={(e) => setUserAnswer(e.target.value)}
-                class="
-                block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6
-                rounded-lg
-                focus:ring-2 ring-purple-500 ring-offset-4 ring-offset-slate-50 dark:ring-offset-slate-900
-                "
-                placeholder="Digite sua resposta..."
-              />
-              
-              <button
-                type="submit"
-                className="px-6 py-2 bg-blue-500 text-white rounded-lg 
-                         hover:bg-blue-600 transition-colors"
-              >
-                Enviar
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen w-full bg-black flex items-center justify-center p-4">
+    <Background />
 
-      {/* Layout para telas médias e grandes (versão 2) */}
       <div className="hidden md:block w-4/5 aspect-video relative">
-        <div className="absolute inset-0 overflow-hidden rounded-lg shadow-animate">
-          <img
-            src={quizData[currentSlide].image}
-            alt="Quiz"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 overflow-hidden rounded-lg ">
+          <div className="absolute inset-0 " />
         </div>
 
         <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
-          <h2 className="text-3xl font-bold mb-8 text-white text-center">
+          <h2 className="text-xl font-bold mb-8 text-[#00ff00] text-center">
             {quizData[currentSlide].question}
+          </h2>
+          <h2 className="text-xl font-bold mb-8 text-[#00ff00] text-center">
+              {quizData[currentSlide].question2}
           </h2>
           
           <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col items-center gap-4">
